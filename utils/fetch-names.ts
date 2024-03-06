@@ -22,6 +22,11 @@ export const fetchNames = async () => {
     try {
         const response = await fetch(url);
         data = (await response.json()) as responseItemType[];
+        let updatedItem: responseItemType = {
+            id: 'updated_at', 
+            name: Date.now().toString()
+        }
+        data.push(updatedItem)
     } catch (err) {
         names = [];
     }
