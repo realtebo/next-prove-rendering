@@ -13,6 +13,11 @@ type responseItemType = {
     name: string;
 };
 
+/**
+ * To use SSR for a page, export an additional async function, getServerSideProps, from that page. 
+ * Next.js calls this function on every request and passes the fetched data to the page’s props argument 
+ * to pre-render it before sending it to the client.
+ */
 const NamesSSR: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 
     const output = props.names.map((item: responseItemType, idx: number) => {
@@ -33,7 +38,13 @@ const NamesSSR: NextPage = (props: InferGetServerSidePropsType<typeof getServerS
 export const getServerSideProps: GetServerSideProps = async (
     context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
 ) => {
-    let names: responseItemType[] | [] = [];
+
+    console.log("Running getServerSideProps");
+
+    // responseItemType[] | [] = []; indica che 
+    // se non è un array di responseItemType, 
+    // deve essere un array ed esattamente un array vuoto
+    let names: responseItemType[] | [] = []; 
     try {
         names = await fetchNames();
     } catch(err) {}
